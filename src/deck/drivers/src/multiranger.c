@@ -135,7 +135,7 @@ static void mrTask(void *param)
 
     while (1)
     {
-        vTaskDelayUntil(&lastWakeTime, M2T(100));
+        vTaskDelayUntil(&lastWakeTime, M2T(50));
         rangeSet(rangeFront, mrGetMeasurementAndRestart(&devFront) / 1000.0f);
         rangeSet(rangeBack, mrGetMeasurementAndRestart(&devBack) / 1000.0f);
         rangeSet(rangeUp, mrGetMeasurementAndRestart(&devUp) / 1000.0f);
@@ -162,10 +162,10 @@ static void mrInit()
 
     pca95x4ClearOutput(PCA95X4_DEFAULT_ADDRESS,
                        MR_PIN_UP |
-                       MR_PIN_RIGHT |
-                       MR_PIN_LEFT |
-                       MR_PIN_FRONT |
-                       MR_PIN_BACK);
+                           MR_PIN_RIGHT |
+                           MR_PIN_LEFT |
+                           MR_PIN_FRONT |
+                           MR_PIN_BACK);
 
     isInit = true;
 
