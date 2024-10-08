@@ -66,7 +66,7 @@
 #include "estimator_ukf.h"
 #include "deck.h"
 #include "extrx.h"
-#include "servo_sweep.h"
+#include "lidar_sweep.h"
 #include "app.h"
 #include "static_mem.h"
 #include "peer_localization.h"
@@ -146,7 +146,7 @@ void systemInit(void)
   pmInit();
   buzzerInit();
   peerLocalizationInit();
-  servoSweepTaskInit();
+  lidarSweepTaskInit();
 
 #ifdef CONFIG_APP_ENABLE
   appInit();
@@ -163,7 +163,7 @@ bool systemTest()
   pass &= pmTest();
   pass &= workerTest();
   pass &= buzzerTest();
-  pass &= servoSweepTaskTest();
+  pass &= lidarSweepTaskTest();
   return pass;
 }
 

@@ -14,7 +14,6 @@
 #include <math.h>
 
 #define RATE_1000_HZ 500
-#define MILLISECONDS_PER_SIXTY_DEGREES 500
 #define MAX_ANGLE 157
 #define MIN_ANGLE 22
 #define RANGE_WAIT_TIME_MS 50
@@ -49,35 +48,6 @@ bool servoSweepTaskTest()
     return isInit;
 }
 
-static float calculateTimeToCompleteMove(float sourceAngle, float destinationAngle)
-{
-    float angleDifference = fabs(destinationAngle - sourceAngle);
-    float degreesPerMs = 60.0 / MILLISECONDS_PER_SIXTY_DEGREES;
-    float timeMs = angleDifference / degreesPerMs;
-
-    return timeMs;
-}
-
-static unsigned int setServoAngle(uint16_t angle)
-{
-    DEBUG_PRINT("Setting servo to angle %d\n", angle);
-    paramSetInt(servoAngleID, angle);
-    uint32_t timeToCompleteMoveMs = (uint32_t)calculateTimeToCompleteMove(currentAngle, angle);
-    currentAngle = angle;
-    return M2T(timeToCompleteMoveMs);
-}
-
-static void waitForMove(uint32_t ticksToWait)
-{
-    if (ticksToWait == 0)
-    {
-        return;
-    }
-
-    lastWakeTime = xTaskGetTickCount();
-    vTaskDelayUntil(&lastWakeTime, ticksToWait);
-}
-
 static void logRanges()
 {
     lastWakeTime = xTaskGetTickCount();
@@ -95,7 +65,7 @@ static void servoSweepTask(void *parameters)
 {
     DEBUG_PRINT("Servo sweep task started\n");
 
-    unsigned int ticksToWait;
+    // unsigned int ticksToWait;
 
     systemWaitStart();
 
@@ -115,15 +85,15 @@ static void servoSweepTask(void *parameters)
 
         for (int i = MIN_ANGLE; i < MAX_ANGLE; ++i)
         {
-            ticksToWait = setServoAngle(i);
-            waitForMove(ticksToWait);
+            // ticksToWait = setServoAngle(i);
+            // waitForMove(ticksToWait);
             logRanges();
         }
 
         for (int i = MAX_ANGLE; i > MIN_ANGLE; --i)
         {
-            ticksToWait = setServoAngle(i);
-            waitForMove(ticksToWait);
+            // ticksToWait = setServoAngle(i);
+            // waitForMove(ticksToWait);
             logRanges();
         }
     }
