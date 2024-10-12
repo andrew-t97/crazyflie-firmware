@@ -28,7 +28,8 @@
 #include "autoconf.h"
 #include "stabilizer_types.h"
 
-typedef enum {
+typedef enum
+{
   StateEstimatorTypeAutoSelect = 0,
   StateEstimatorTypeComplementary,
 #ifdef CONFIG_ESTIMATOR_KALMAN_ENABLE
@@ -43,7 +44,8 @@ typedef enum {
   StateEstimatorType_COUNT,
 } StateEstimatorType;
 
-typedef enum {
+typedef enum
+{
   MeasurementTypeTDOA,
   MeasurementTypePosition,
   MeasurementTypePose,
@@ -83,7 +85,7 @@ bool stateEstimatorTest(void);
 void stateEstimatorSwitchTo(StateEstimatorType estimator);
 void stateEstimator(state_t *state, const stabilizerStep_t stabilizerStep);
 StateEstimatorType stateEstimatorGetType(void);
-const char* stateEstimatorGetName();
+const char *stateEstimatorGetName();
 
 // Support to incorporate additional sensors into the state estimate via the following functions
 void estimatorEnqueue(const measurement_t *measurement);

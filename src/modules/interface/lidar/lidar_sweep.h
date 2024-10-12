@@ -4,7 +4,5 @@
 
 #include <stdbool.h>
 
-
-
 void lidarSweepTaskInit();
 bool lidarSweepTaskTest();

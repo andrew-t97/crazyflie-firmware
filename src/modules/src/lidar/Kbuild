@@ -1,0 +1,4 @@
+obj-y += lidar.o
+obj-y += lidar_motor_control_helpers.o
+obj-y += lidar_motor_control.o
+obj-y += lidar_sweep.o

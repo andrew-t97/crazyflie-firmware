@@ -7,10 +7,12 @@
 
 #define MILLISECONDS_PER_SIXTY_DEGREES 500
 #define GEAR_RATIO 1.2121
-#define BELT_DRIVE_RATIO 1.1
-#define MIN_ANGLE ((180 - 90) / GEAR_RATIO)
-#define MAX_ANGLE MIN_ANGLE + 90
-#define STARTING_ANGLE 90 // TODO: Do checks of max and min possible angles
+#define BELT_DRIVE_RATIO 1.5204
+#define STARTING_ANGLE 90
+#define MAX_ANGULAR_DISPLACEMENT_OF_SERVO 90
+#define MAX_ANGULAR_DISPLACEMENT (MAX_ANGULAR_DISPLACEMENT_OF_SERVO * BELT_DRIVE_RATIO / GEAR_RATIO)
+#define MAX_ANGLE (STARTING_ANGLE + MAX_ANGULAR_DISPLACEMENT)
+#define MIN_ANGLE (STARTING_ANGLE - MAX_ANGULAR_DISPLACEMENT)
 
 struct servo
 {
@@ -30,7 +32,7 @@ struct servo
  *
  * @return The number of ticks to wait for the servo motor to finish moving.
  */
-unsigned int setServoAngle(Servo const *servo, const uint16_t targetAngle, const bool waitForMove);
+int setServoAngle(Servo *servo, const uint16_t targetAngle, const bool waitForMove);
 
 /**
  * @brief Initialises the LiDAR servo motor.
@@ -39,4 +41,4 @@ unsigned int setServoAngle(Servo const *servo, const uint16_t targetAngle, const
  *
  * @return A pointer to the initialised servo motor.
  */
-Servo *initialiseLiDARServo();
+Servo *initialiseLiDARServo(void);
