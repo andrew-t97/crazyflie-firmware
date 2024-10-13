@@ -1,7 +1,10 @@
+#include "FreeRTOS.h"
+#include "task.h"
 
 #include "lidar_motor_control_helpers.h"
+#include <math.h>
 
-static float calculateTimeToCompleteMove(float sourceAngle, float destinationAngle, uint32_t msPerSixtyDegrees)
+float calculateTimeToCompleteMove(float sourceAngle, float destinationAngle, uint32_t msPerSixtyDegrees)
 {
     float angleDifference = fabs(destinationAngle - sourceAngle);
     float degreesPerMs = 60.0 / msPerSixtyDegrees;
@@ -10,7 +13,7 @@ static float calculateTimeToCompleteMove(float sourceAngle, float destinationAng
     return timeMs;
 }
 
-static void waitForMove(uint32_t ticksToWait)
+void waitForMove(uint32_t ticksToWait)
 {
     if (ticksToWait == 0)
     {
@@ -21,7 +24,7 @@ static void waitForMove(uint32_t ticksToWait)
     vTaskDelayUntil(&currentTime, ticksToWait);
 }
 
-static uint16_t translateTargetAngleToServoAngle(uint16_t targetAngle, float servoBeltDriveRatio, float beltDriveLidarGearRatio)
+uint16_t translateTargetAngleToServoAngle(uint16_t targetAngle, float servoBeltDriveRatio, float beltDriveLidarGearRatio)
 {
     return targetAngle * beltDriveLidarGearRatio / servoBeltDriveRatio;
 }
