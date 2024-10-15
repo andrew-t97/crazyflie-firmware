@@ -2,11 +2,12 @@
 
 #include "unity.h"
 
+// Mocks
+
 uint32_t xTaskGetTickCount() { return 0; }
 void vTaskDelayUntil(const uint32_t ignore) {}
 
-float calculateTimeToCompleteMove(float sourceAngle, float destinationAngle, uint32_t msPerSixtyDegrees);
-uint16_t translateTargetAngleToServoAngle(uint16_t targetAngle, float servoBeltDriveRatio, float beltDriveLidarGearRatio);
+// Tests
 
 void testCalculateTimeToMoveCalculatesCorrectTime()
 {
@@ -29,12 +30,13 @@ void testTranslateTargetAngleToServoAngleCalculatesCorrectAngle()
 {
     // Fixture
     uint16_t targetAngle = 15;
-    float servoBeltDriveRatio = 2.5;
-    float beltDriveLidarGearRatio = 1.2;
-    float expectedAngle = 7; //(targetAngle * beltDriveLidarGearRatio / servoBeltDriveRatio)
+    uint16_t servoCentreAngle = 90;
+    float servoBeltDriveRatio = 1.2;
+    float beltDriveLidarGearRatio = 1.5;
+    float expectedAngle = 131.25; // (targetAngle + servoCentreAngle) / servoBeltDriveRatio * beltDriveLidarGearRatio
 
     // Test
-    uint16_t actualAngle = translateTargetAngleToServoAngle(targetAngle, servoBeltDriveRatio, beltDriveLidarGearRatio);
+    uint16_t actualAngle = translateTargetAngleToServoAngle(targetAngle, servoBeltDriveRatio, beltDriveLidarGearRatio, servoCentreAngle);
 
     // Assert
     TEST_ASSERT_EQUAL(expectedAngle, actualAngle);

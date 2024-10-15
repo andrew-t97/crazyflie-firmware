@@ -36,4 +36,7 @@ void waitForMove(uint32_t ticksToWait);
  * @param beltDriveLidarGearRatio The ratio between the belt drive gear and the lidar gear
  * @return The corresponding servo angle.
  */
-uint16_t translateTargetAngleToServoAngle(uint16_t targetAngle, float servoBeltDriveRatio, float beltDriveLidarGearRatio);
+uint16_t translateTargetAngleToServoAngle(int16_t targetAngle,
+                                          float servoBeltDriveRatio,
+                                          float beltDriveLidarGearRatio,
+                                          uint16_t servoCentreAngle);
