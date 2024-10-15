@@ -36,7 +36,7 @@ typedef struct servo
  *
  * @return The number of ticks to wait for the servo motor to finish moving.
  */
-int setServoAngle(Servo *servo, const int16_t lidarTargetAngle, const bool waitForMove);
+int setLidarAngle(Servo *servo, const int16_t lidarTargetAngle, const bool waitForMove);
 
 /**
  * @brief Initialises the LiDAR servo motor.

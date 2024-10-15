@@ -10,7 +10,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-int setServoAngle(Servo *servo, const int16_t lidarTargetAngle, const bool waitForServoToReachTarget)
+int setLidarAngle(Servo *servo, const int16_t lidarTargetAngle, const bool waitForServoToReachTarget)
 {
     if (lidarTargetAngle > MAX_LIDAR_ANGLE)
     {
@@ -65,7 +65,7 @@ Servo *initialiseLiDARServo()
 
     DEBUG_PRINT("LiDAR Servo Angle ID: %d\n", (int)servo->servoAngleParamID.id);
 
-    setServoAngle(servo, initialAngle, true);
+    setLidarAngle(servo, initialAngle, true);
 
     return servo;
 }

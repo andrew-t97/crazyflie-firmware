@@ -33,46 +33,46 @@ Servo *getTestServo()
     return servo;
 }
 
-void testThatSetServoAngleFailsIfTargetAngleLargerThanMaxAngle()
+void testThatSetLidarAngleFailsIfTargetAngleLargerThanMaxAngle()
 {
     // Fixture
     Servo *testServo = getTestServo();
     int16_t targetAngle = MAX_LIDAR_ANGLE + 1;
 
     // Test
-    int16_t ticksToWait = setServoAngle(testServo, targetAngle, false);
+    int16_t ticksToWait = setLidarAngle(testServo, targetAngle, false);
 
     // Assert
     TEST_ASSERT_EQUAL(FAIL_VALUE, ticksToWait);
 }
 
-void testThatSetServoAngleFailsIfTargetAngleSmallerThanMinAngle()
+void testThatSetLidarAngleFailsIfTargetAngleSmallerThanMinAngle()
 {
     // Fixture
     Servo *testServo = getTestServo();
     int16_t targetAngle = MIN_LIDAR_ANGLE - 1;
 
     // Test
-    int16_t ticksToWait = setServoAngle(testServo, targetAngle, false);
+    int16_t ticksToWait = setLidarAngle(testServo, targetAngle, false);
 
     // Assert
     TEST_ASSERT_EQUAL(FAIL_VALUE, ticksToWait);
 }
 
-void testThatSetServoAngleReturnsZeroWhenWaitingForServoToMove()
+void testThatSetLidarAngleReturnsZeroWhenWaitingForServoToMove()
 {
     // Fixture
     Servo *testServo = getTestServo();
     int16_t targetAngle = MAX_LIDAR_ANGLE / 2;
 
     // Test
-    int16_t ticksToWait = setServoAngle(testServo, targetAngle, true);
+    int16_t ticksToWait = setLidarAngle(testServo, targetAngle, true);
 
     // Assert
     TEST_ASSERT_EQUAL(0, ticksToWait);
 }
 
-void testThatSetServoAngleReturnsCorrectTicksToWaitWhenNotWaitingForServo()
+void testThatSetLidarAngleReturnsCorrectTicksToWaitWhenNotWaitingForServo()
 {
     // Fixture
     Servo *testServo = getTestServo();
@@ -83,7 +83,7 @@ void testThatSetServoAngleReturnsCorrectTicksToWaitWhenNotWaitingForServo()
     int expectedTicks = M2T(expectedTimeToComplete);
 
     // Test
-    int actualTicks = setServoAngle(testServo, targetAngle, false);
+    int actualTicks = setLidarAngle(testServo, targetAngle, false);
 
     // Assert
     TEST_ASSERT_EQUAL(expectedTicks, actualTicks);
