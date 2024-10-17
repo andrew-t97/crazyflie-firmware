@@ -14,16 +14,16 @@ int setLidarAngle(Servo *servo, const int16_t lidarTargetAngle, const bool waitF
 {
     if (lidarTargetAngle > MAX_LIDAR_ANGLE)
     {
-        DEBUG_PRINT("Target angle too large - target angle: %d, max angle: %d\n", lidarTargetAngle, (int)MAX_LIDAR_ANGLE);
+        DEBUG_PRINT("Lidar target angle too large - target angle: %d, max angle: %d\n", lidarTargetAngle, (int)MAX_LIDAR_ANGLE);
         return -1;
     }
     else if (lidarTargetAngle < MIN_LIDAR_ANGLE)
     {
-        DEBUG_PRINT("Target angle too small - target angle: %d, minimum angle: %d\n", lidarTargetAngle, (int)MIN_LIDAR_ANGLE);
+        DEBUG_PRINT("Lidar target angle too small - target angle: %d, minimum angle: %d\n", lidarTargetAngle, (int)MIN_LIDAR_ANGLE);
         return -1;
     }
 
-    uint16_t servoTargetAngle = translateTargetAngleToServoAngle(lidarTargetAngle, BELT_DRIVE_RATIO, GEAR_RATIO, SERVO_CENTRE_ANGLE);
+    uint16_t servoTargetAngle = translateLidarTargetAngleToServoAngle(lidarTargetAngle, BELT_DRIVE_RATIO, GEAR_RATIO, SERVO_CENTRE_ANGLE);
 
     DEBUG_PRINT("Moving LiDAR angle to %d degrees\n", lidarTargetAngle);
     DEBUG_PRINT("Moving servo to translated target angle of %d degrees\n", servoTargetAngle);

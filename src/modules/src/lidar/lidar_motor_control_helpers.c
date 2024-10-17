@@ -24,10 +24,10 @@ void waitForMove(uint32_t ticksToWait)
     vTaskDelayUntil(&currentTime, ticksToWait);
 }
 
-uint16_t translateTargetAngleToServoAngle(int16_t targetAngle,
-                                          float servoBeltDriveRatio,
-                                          float beltDriveLidarGearRatio,
-                                          uint16_t servoCentreAngle)
+uint16_t translateLidarTargetAngleToServoAngle(int16_t targetAngle,
+                                               float servoBeltDriveRatio,
+                                               float beltDriveLidarGearRatio,
+                                               uint16_t servoCentreAngle)
 {
     return (targetAngle + servoCentreAngle) / servoBeltDriveRatio * beltDriveLidarGearRatio;
 }

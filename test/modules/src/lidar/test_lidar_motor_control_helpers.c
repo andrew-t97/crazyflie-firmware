@@ -36,7 +36,7 @@ void testTranslateTargetAngleToServoAngleCalculatesCorrectAngle()
     float expectedAngle = 131.25; // (targetAngle + servoCentreAngle) / servoBeltDriveRatio * beltDriveLidarGearRatio
 
     // Test
-    uint16_t actualAngle = translateTargetAngleToServoAngle(targetAngle, servoBeltDriveRatio, beltDriveLidarGearRatio, servoCentreAngle);
+    uint16_t actualAngle = translateLidarTargetAngleToServoAngle(targetAngle, servoBeltDriveRatio, beltDriveLidarGearRatio, servoCentreAngle);
 
     // Assert
     TEST_ASSERT_EQUAL(expectedAngle, actualAngle);

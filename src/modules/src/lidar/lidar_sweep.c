@@ -29,5 +29,6 @@ bool lidarSweepTaskTest()
 
 static void lidarSweepTask(void *parameters)
 {
+    // TODO: Implement this
     return;
 }

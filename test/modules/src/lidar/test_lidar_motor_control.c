@@ -77,7 +77,7 @@ void testThatSetLidarAngleReturnsCorrectTicksToWaitWhenNotWaitingForServo()
     // Fixture
     Servo *testServo = getTestServo();
     int16_t targetAngle = MAX_LIDAR_ANGLE;
-    int16_t servoTargetAngle = translateTargetAngleToServoAngle(targetAngle, BELT_DRIVE_RATIO, GEAR_RATIO, SERVO_CENTRE_ANGLE);
+    int16_t servoTargetAngle = translateLidarTargetAngleToServoAngle(targetAngle, BELT_DRIVE_RATIO, GEAR_RATIO, SERVO_CENTRE_ANGLE);
 
     uint32_t expectedTimeToComplete = (uint32_t)calculateTimeToCompleteMove(testServo->currentAngle, servoTargetAngle, MILLISECONDS_PER_SIXTY_DEGREES);
     int expectedTicks = M2T(expectedTimeToComplete);
@@ -94,7 +94,7 @@ void testThatInitialiseLiDARServoCreatesServoCorrectly()
     // Fixture
     uint16_t expectedParamID = MOCK_PARAM_ID;
     uint16_t expectedIndex = MOCK_INDEX;
-    uint16_t expectedCurrentAngle = translateTargetAngleToServoAngle(0, BELT_DRIVE_RATIO, GEAR_RATIO, SERVO_CENTRE_ANGLE);
+    uint16_t expectedCurrentAngle = translateLidarTargetAngleToServoAngle(0, BELT_DRIVE_RATIO, GEAR_RATIO, SERVO_CENTRE_ANGLE);
 
     // Test
     Servo *servo = initialiseLiDARServo();
