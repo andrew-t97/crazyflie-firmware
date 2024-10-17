@@ -1,5 +1,6 @@
 #include "lidar.h"
 #include "debug.h"
+#include "log.h"
 
 #include <stdlib.h>
 #include <stddef.h>
@@ -30,16 +31,16 @@ lidarRanges *getLidarRanges(lidarRangerLogIds *rangerLogIds)
         return NULL;
     }
 
-    ranges->front = (float)logGetVarId("range", "front");
-    ranges->back = (float)logGetVarId("range", "back");
-    ranges->left = (float)logGetVarId("range", "left");
-    ranges->right = (float)logGetVarId("range", "right");
+    ranges->front = logGetUint(rangerLogIds->front);
+    ranges->back = logGetUint(rangerLogIds->back);
+    ranges->left = logGetUint(rangerLogIds->left);
+    ranges->right = logGetUint(rangerLogIds->right);
 
-    DEBUG_PRINT("Got LiDAR ranges! - Front: %.3f, Back: %.3f, Left %.3f, Right, %.3f",
-                (double)ranges->front,
-                (double)ranges->back,
-                (double)ranges->left,
-                (double)ranges->right);
+    DEBUG_PRINT("Got LiDAR ranges! - Front: %d, Back: %d, Left: %d, Right: %d\n",
+                ranges->front,
+                ranges->back,
+                ranges->left,
+                ranges->right);
 
     return ranges;
 }

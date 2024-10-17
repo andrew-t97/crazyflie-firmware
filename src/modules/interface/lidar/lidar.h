@@ -12,12 +12,12 @@ struct lidarRangerLogIds_s
 
 struct lidarRanges_s
 {
-    float front;
-    float back;
-    float left;
-    float right;
+    uint16_t front;
+    uint16_t back;
+    uint16_t left;
+    uint16_t right;
 } typedef lidarRanges;
 
-lidarRangerLogIds * getRangerLogIds(void);
+lidarRangerLogIds *getRangerLogIds(void);
 
-lidarRanges * getLidarRanges(lidarRangerLogIds *);
+lidarRanges *getLidarRanges(lidarRangerLogIds *);
