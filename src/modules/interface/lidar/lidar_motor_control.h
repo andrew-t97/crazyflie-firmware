@@ -23,7 +23,7 @@ typedef struct servo
     paramVarId_t servoAngleParamID;
     uint16_t currentAngle;
 
-} Servo;
+} servo;
 
 /**
  * @brief Sets the angle of a servo motor.
@@ -36,7 +36,7 @@ typedef struct servo
  *
  * @return The number of ticks to wait for the servo motor to finish moving.
  */
-int setLidarAngle(Servo *servo, const int16_t lidarTargetAngle, const bool waitForMove);
+int setLidarAngle(servo *servo, const int16_t lidarTargetAngle, const bool waitForMove);
 
 /**
  * @brief Initialises the LiDAR servo motor.
@@ -45,4 +45,4 @@ int setLidarAngle(Servo *servo, const int16_t lidarTargetAngle, const bool waitF
  *
  * @return A pointer to the initialised servo motor.
  */
-Servo *initialiseLiDARServo(void);
+servo *initialiseLiDARServo(void);

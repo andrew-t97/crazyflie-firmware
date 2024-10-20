@@ -10,7 +10,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-int setLidarAngle(Servo *servo, const int16_t lidarTargetAngle, const bool waitForServoToReachTarget)
+int setLidarAngle(servo *servo, const int16_t lidarTargetAngle, const bool waitForServoToReachTarget)
 {
     if (lidarTargetAngle > MAX_LIDAR_ANGLE)
     {
@@ -47,10 +47,10 @@ int setLidarAngle(Servo *servo, const int16_t lidarTargetAngle, const bool waitF
     return ticksToWait;
 }
 
-Servo *initialiseLiDARServo()
+servo *initialiseLiDARServo()
 {
-    Servo *servo = (Servo *)malloc(sizeof(Servo));
-    if (servo == NULL)
+    servo *lidarServo = (servo *)malloc(sizeof(servo));
+    if (lidarServo == NULL)
     {
         DEBUG_PRINT("Failed to allocate memory for LiDAR servo\n");
         return NULL;
@@ -60,12 +60,12 @@ Servo *initialiseLiDARServo()
 
     /* Setting the servo current angle to zero so that we wait the max time, ensuring we always wait long
      enough for the move to complete */
-    servo->servoAngleParamID = paramGetVarId("servo", "servoAngle");
-    servo->currentAngle = 0;
+    lidarServo->servoAngleParamID = paramGetVarId("servo", "servoAngle");
+    lidarServo->currentAngle = 0;
 
-    DEBUG_PRINT("LiDAR Servo Angle ID: %d\n", (int)servo->servoAngleParamID.id);
+    DEBUG_PRINT("LiDAR servo set angle ID: %d\n", (int)lidarServo->servoAngleParamID.id);
 
-    setLidarAngle(servo, initialAngle, true);
+    setLidarAngle(lidarServo, initialAngle, true);
 
-    return servo;
+    return lidarServo;
 }

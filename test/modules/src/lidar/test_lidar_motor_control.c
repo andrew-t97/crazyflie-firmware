@@ -23,20 +23,20 @@ void vTaskDelayUntil(const uint32_t ignore) {}
 
 // Tests
 
-Servo *getTestServo()
+servo *getTestServo()
 {
-    Servo *servo = (Servo *)malloc(sizeof(Servo));
-    servo->currentAngle = SERVO_TEST_ANGLE;
-    servo->servoAngleParamID.id = MOCK_PARAM_ID;
-    servo->servoAngleParamID.index = MOCK_INDEX;
+    servo *testServo = (servo *)malloc(sizeof(servo));
+    testServo->currentAngle = SERVO_TEST_ANGLE;
+    testServo->servoAngleParamID.id = MOCK_PARAM_ID;
+    testServo->servoAngleParamID.index = MOCK_INDEX;
 
-    return servo;
+    return testServo;
 }
 
 void testThatSetLidarAngleFailsIfTargetAngleLargerThanMaxAngle()
 {
     // Fixture
-    Servo *testServo = getTestServo();
+    servo *testServo = getTestServo();
     int16_t targetAngle = MAX_LIDAR_ANGLE + 1;
 
     // Test
@@ -49,7 +49,7 @@ void testThatSetLidarAngleFailsIfTargetAngleLargerThanMaxAngle()
 void testThatSetLidarAngleFailsIfTargetAngleSmallerThanMinAngle()
 {
     // Fixture
-    Servo *testServo = getTestServo();
+    servo *testServo = getTestServo();
     int16_t targetAngle = MIN_LIDAR_ANGLE - 1;
 
     // Test
@@ -62,7 +62,7 @@ void testThatSetLidarAngleFailsIfTargetAngleSmallerThanMinAngle()
 void testThatSetLidarAngleReturnsZeroWhenWaitingForServoToMove()
 {
     // Fixture
-    Servo *testServo = getTestServo();
+    servo *testServo = getTestServo();
     int16_t targetAngle = MAX_LIDAR_ANGLE / 2;
 
     // Test
@@ -75,7 +75,7 @@ void testThatSetLidarAngleReturnsZeroWhenWaitingForServoToMove()
 void testThatSetLidarAngleReturnsCorrectTicksToWaitWhenNotWaitingForServo()
 {
     // Fixture
-    Servo *testServo = getTestServo();
+    servo *testServo = getTestServo();
     int16_t targetAngle = MAX_LIDAR_ANGLE;
     int16_t servoTargetAngle = translateLidarTargetAngleToServoAngle(targetAngle, BELT_DRIVE_RATIO, GEAR_RATIO, SERVO_CENTRE_ANGLE);
 
@@ -97,10 +97,10 @@ void testThatInitialiseLiDARServoCreatesServoCorrectly()
     uint16_t expectedCurrentAngle = translateLidarTargetAngleToServoAngle(0, BELT_DRIVE_RATIO, GEAR_RATIO, SERVO_CENTRE_ANGLE);
 
     // Test
-    Servo *servo = initialiseLiDARServo();
+    servo *testServo = initialiseLiDARServo();
 
     // Assert
-    TEST_ASSERT_EQUAL(expectedParamID, servo->servoAngleParamID.id);
-    TEST_ASSERT_EQUAL(expectedIndex, servo->servoAngleParamID.index);
-    TEST_ASSERT_EQUAL(expectedCurrentAngle, servo->currentAngle);
+    TEST_ASSERT_EQUAL(expectedParamID, testServo->servoAngleParamID.id);
+    TEST_ASSERT_EQUAL(expectedIndex, testServo->servoAngleParamID.index);
+    TEST_ASSERT_EQUAL(expectedCurrentAngle, testServo->currentAngle);
 }
