@@ -19,11 +19,21 @@ static void lidarSweepTask(void *);
 #define MAX_SWEEP_ANGLE ((int)(SWEEP_RANGE / -2))
 #define LIDAR_FREQUENCY_HZ 50
 
+static int lidarAngle;
+static lidarRanges *ranges;
+
 STATIC_MEM_TASK_ALLOC(lidarSweepTask, LIDAR_SWEEP_TASK_STACKSIZE);
 
 void lidarSweepTaskInit()
 {
     STATIC_MEM_TASK_CREATE(lidarSweepTask, lidarSweepTask, LIDAR_SWEEP_TASK_NAME, NULL, LIDAR_SWEEP_TASK_PRI);
+
+    ranges = (lidarRanges *)malloc(sizeof(lidarRanges));
+    if (ranges == NULL)
+    {
+        DEBUG_PRINT("Failed to allocate memory for lidar ranges\n");
+        return NULL;
+    }
 
     currentAngle = 90;
     isInit = true;
@@ -45,17 +55,17 @@ static lidarRanges *getRangesAtAngle(servo *lidarServo, lidarRangerLogIds *range
     vTaskDelayUntil(&lastWakeTime, F2T(LIDAR_FREQUENCY_HZ));
 
     // Get ranges from multi-ranger
-    lidarRanges *ranges = getLidarRanges(rangerLogIds);
+    getLidarRanges(rangerLogIds, ranges);
 
     return ranges;
 }
 
-static void lidarSweep(int16_t startAngle, int16_t endAngle, int16_t step, servo *lidarServo, lidarRangerLogIds *lidarLogIds)
+static void lidarSweep(int16_t startAngle, int16_t endAngle, int16_t step, servo *lidarServo, lidarRangerLogIds *lidarLogIds, lidarRanges *rangesOut)
 {
     for (int16_t currentAngle = startAngle; currentAngle != endAngle; currentAngle += step)
     {
         lidarRanges *ranges = getRangesAtAngle(lidarServo, lidarLogIds, currentAngle);
-        // TODO: Send ranges over radio
+        // TODO: Implement logging
     }
 }
 
@@ -65,17 +75,16 @@ static void lidarSweepTask(void *parameters)
 
     systemWaitStart();
 
-    lidarRanges *ranges;
     servo *lidarServo = initialiseLiDARServo();
     lidarRangerLogIds *lidarLogIds = getRangerLogIds();
 
     while (true)
     {
         // Sweep forwards
-        lidarSweep(MIN_SWEEP_ANGLE, MAX_SWEEP_ANGLE + 1, 1, lidarServo, lidarLogIds);
+        lidarSweep(MIN_SWEEP_ANGLE, MAX_SWEEP_ANGLE + 1, 1, lidarServo, lidarLogIds, ranges);
 
         // Sweep backwards
-        lidarSweep(MAX_SWEEP_ANGLE, MIN_SWEEP_ANGLE - 1, -1, lidarServo, lidarLogIds);
+        lidarSweep(MAX_SWEEP_ANGLE, MIN_SWEEP_ANGLE - 1, -1, lidarServo, lidarLogIds, ranges);
     }
 
     return;

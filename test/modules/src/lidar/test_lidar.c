@@ -81,8 +81,14 @@ void testThatGetLidarRangesRetrievesRangesCorrectly()
     // Fixture
     lidarRangerLogIds *rangerLogIds = getRangerLogIds();
 
+    lidarRanges *ranges = (lidarRanges *)malloc(sizeof(lidarRanges));
+    if (ranges == NULL)
+    {
+        TEST_FAIL_MESSAGE("Failed to allocate memory for lidar ranges\n");
+    }
+
     // Test
-    lidarRanges *ranges = getLidarRanges(rangerLogIds);
+    getLidarRanges(rangerLogIds, ranges);
 
     // Assert
     TEST_ASSERT_EQUAL(ranges->front, FRONT_RANGE);

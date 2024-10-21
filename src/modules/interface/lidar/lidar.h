@@ -40,7 +40,8 @@ lidarRangerLogIds *getRangerLogIds(void);
  * This function returns a pointer to a lidarRanges struct containing the ranges in each direction
  * of the multi-ranger.
  *
- * @param rangerLogIds The log ids of each direction of the multi-ranger.
+ * @param rangerLogIds The address to the log ids of each direction of the multi-ranger.
+ * @param rangeOut The address to store the ranges retrieved from the multi-ranger
  * @return Pointer to a lidarRanges struct containing the multi-ranger's current ranges.
  */
-lidarRanges *getLidarRanges(lidarRangerLogIds *rangerLogIds);
+void getLidarRanges(lidarRangerLogIds *rangerLogIds, lidarRanges *rangeOut);

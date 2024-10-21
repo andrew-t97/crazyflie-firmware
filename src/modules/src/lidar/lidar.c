@@ -22,25 +22,17 @@ lidarRangerLogIds *getRangerLogIds()
     return rangerLogIds;
 }
 
-lidarRanges *getLidarRanges(lidarRangerLogIds *rangerLogIds)
+// TODO: Make it so you can provide the ouput range struct for this
+void getLidarRanges(lidarRangerLogIds *rangerLogIds, lidarRanges *rangeOut)
 {
-    lidarRanges *ranges = (lidarRanges *)malloc(sizeof(lidarRanges));
-    if (ranges == NULL)
-    {
-        DEBUG_PRINT("Failed to allocate memory for lidar ranges\n");
-        return NULL;
-    }
-
-    ranges->front = logGetUint(rangerLogIds->front);
-    ranges->back = logGetUint(rangerLogIds->back);
-    ranges->left = logGetUint(rangerLogIds->left);
-    ranges->right = logGetUint(rangerLogIds->right);
+    rangeOut->front = logGetUint(rangerLogIds->front);
+    rangeOut->back = logGetUint(rangerLogIds->back);
+    rangeOut->left = logGetUint(rangerLogIds->left);
+    rangeOut->right = logGetUint(rangerLogIds->right);
 
     DEBUG_PRINT("Got LiDAR ranges! - Front: %d, Back: %d, Left: %d, Right: %d\n",
-                ranges->front,
-                ranges->back,
-                ranges->left,
-                ranges->right);
-
-    return ranges;
+                rangeOut->front,
+                rangeOut->back,
+                rangeOut->left,
+                rangeOut->right);
 }
