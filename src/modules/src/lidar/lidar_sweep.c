@@ -6,6 +6,7 @@
 #include "log.h"
 #include "lidar_motor_control.h"
 #include "lidar.h"
+#include "system.h"
 
 #include <stdlib.h>
 
