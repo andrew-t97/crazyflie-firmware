@@ -20,20 +20,13 @@ static void lidarSweepTask(void *);
 #define LIDAR_FREQUENCY_HZ 50
 
 static int lidarAngle;
-static lidarRanges *ranges;
+static lidarRanges ranges;
 
 STATIC_MEM_TASK_ALLOC(lidarSweepTask, LIDAR_SWEEP_TASK_STACKSIZE);
 
 void lidarSweepTaskInit()
 {
     STATIC_MEM_TASK_CREATE(lidarSweepTask, lidarSweepTask, LIDAR_SWEEP_TASK_NAME, NULL, LIDAR_SWEEP_TASK_PRI);
-
-    ranges = (lidarRanges *)malloc(sizeof(lidarRanges));
-    if (ranges == NULL)
-    {
-        DEBUG_PRINT("Failed to allocate memory for lidar ranges\n");
-        return NULL;
-    }
 
     currentAngle = 90;
     isInit = true;
@@ -45,7 +38,7 @@ bool lidarSweepTaskTest()
     return isInit;
 }
 
-static lidarRanges *getRangesAtAngle(servo *lidarServo, lidarRangerLogIds *rangerLogIds, int16_t targetAngle)
+static void getRangesAtAngle(servo *lidarServo, lidarRangerLogIds *rangerLogIds, int16_t targetAngle, lidarRanges *rangesOut)
 {
     // Move to angle
     setLidarAngle(lidarServo, targetAngle, true);
@@ -55,17 +48,15 @@ static lidarRanges *getRangesAtAngle(servo *lidarServo, lidarRangerLogIds *range
     vTaskDelayUntil(&lastWakeTime, F2T(LIDAR_FREQUENCY_HZ));
 
     // Get ranges from multi-ranger
-    getLidarRanges(rangerLogIds, ranges);
-
-    return ranges;
+    getLidarRanges(rangerLogIds, rangesOut);
 }
 
 static void lidarSweep(int16_t startAngle, int16_t endAngle, int16_t step, servo *lidarServo, lidarRangerLogIds *lidarLogIds, lidarRanges *rangesOut)
 {
     for (int16_t currentAngle = startAngle; currentAngle != endAngle; currentAngle += step)
     {
-        lidarRanges *ranges = getRangesAtAngle(lidarServo, lidarLogIds, currentAngle);
-        // TODO: Implement logging
+        lidarAngle = currentAngle;
+        getRangesAtAngle(lidarServo, lidarLogIds, currentAngle, &ranges);
     }
 }
 
@@ -81,11 +72,21 @@ static void lidarSweepTask(void *parameters)
     while (true)
     {
         // Sweep forwards
-        lidarSweep(MIN_SWEEP_ANGLE, MAX_SWEEP_ANGLE + 1, 1, lidarServo, lidarLogIds, ranges);
+        lidarSweep(MIN_SWEEP_ANGLE, MAX_SWEEP_ANGLE + 1, 1, lidarServo, lidarLogIds, &ranges);
 
         // Sweep backwards
-        lidarSweep(MAX_SWEEP_ANGLE, MIN_SWEEP_ANGLE - 1, -1, lidarServo, lidarLogIds, ranges);
+        lidarSweep(MAX_SWEEP_ANGLE, MIN_SWEEP_ANGLE - 1, -1, lidarServo, lidarLogIds, &ranges);
     }
 
     return;
 }
+
+LOG_GROUP_START(lidar_sweep)
+
+LOG_ADD_CORE(LOG_INT16, angle, &lidarAngle)
+LOG_ADD_CORE(LOG_UINT16, front, &(ranges.front))
+LOG_ADD_CORE(LOG_UINT16, back, &(ranges.back))
+LOG_ADD_CORE(LOG_UINT16, left, &(ranges.left))
+LOG_ADD_CORE(LOG_UINT16, right, &(ranges.right))
+
+LOG_GROUP_STOP(lidar_sweep)
